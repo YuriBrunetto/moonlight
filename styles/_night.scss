@@ -12,6 +12,17 @@ body.night {
     color: #fff;
   }
 
+  .choose-city {
+    background-color: #222;
+    color: #fff;
+
+    form {
+      input, button {
+        color: #fff;
+      }
+    }
+  }
+
   footer {
     color: rgba(255,255,255,.7);
   }

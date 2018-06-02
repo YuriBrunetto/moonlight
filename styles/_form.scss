@@ -30,13 +30,25 @@
       padding: 16px 0 16px 16px;
       width: 100%;
 
-      input {
-        background-color: transparent;
-        border: 0;
+      .form-group {
         flex: 1;
-        font-size: 13px;
-        height: 32px;
-        outline: 0;
+        position: relative;
+
+        input {
+          background-color: transparent;
+          border: 0;
+          font-size: 13px;
+          height: 32px;
+          outline: 0;
+          width: 100%;
+        }
+
+        .Demo__autocomplete-container {
+          left: 0;
+          top: calc(100% + 16px);
+          position: absolute;
+          width: 100%;
+        }
       }
 
       button {

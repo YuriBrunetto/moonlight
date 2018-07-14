@@ -30,7 +30,7 @@ export default class extends Component {
     // based on clock experiment https://codepen.io/uniqname/pen/eIApt?editors=0010
 
     let d = new Date(),
-        hours = d.getHours(),
+        hours = 22,
         minutes = d.getMinutes(),
         seconds = d.getSeconds()
 

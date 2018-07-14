@@ -6,8 +6,8 @@ class ChooseCity extends Component {
     const { props } = this
 
     const renderSuggestion = ({ formattedSuggestion }) => (
-      <div className="Demo__suggestion-item">
-        <i className="fa fa-map-marker Demo__suggestion-icon" />
+      <div className="suggestion-item">
+        <i className="fa fa-map-marker suggestion-icon" />
         <strong>{formattedSuggestion.mainText}</strong>{' '}
         <small className="text-muted">{formattedSuggestion.secondaryText}</small>
       </div>
@@ -23,8 +23,8 @@ class ChooseCity extends Component {
 
     const cssClasses = {
       root: 'form-group',
-      input: 'Demo__search-input',
-      autocompleteContainer: 'Demo__autocomplete-container',
+      input: 'search-input',
+      autocompleteContainer: 'autocomplete-container',
     }
 
     const onError = (status, clearSuggestions) => {

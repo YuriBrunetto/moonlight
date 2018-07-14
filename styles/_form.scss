@@ -16,6 +16,7 @@
     display: flex;
     flex-basis: 480px;
     flex-direction: column;
+    transform: translateY(-30%);
 
     h2 {
       text-transform: uppercase;
@@ -43,11 +44,30 @@
           width: 100%;
         }
 
-        .Demo__autocomplete-container {
-          left: 0;
+        .autocomplete-container {
+          left: -16px;
           top: calc(100% + 16px);
           position: absolute;
-          width: 100%;
+          width: calc(100% + 64px);
+
+          > div {
+            background-color: none !important;
+            transition: background-color .3s;
+          }
+
+          .suggestion-item {
+            padding: 8px 16px;
+            width: 100%;
+          }
+        }
+
+        body.night & {
+          .form-group .autocomplete-container > div {
+
+            .suggestion-item {
+              color: #fff;
+            }
+          }
         }
       }
 

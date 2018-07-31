@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
 
 // Components
 import Meta from './../components/Meta'
@@ -9,21 +10,27 @@ export default class extends Component {
   constructor(props) {
     super(props)
 
-    this.clock = this.clock.bind(this)
-    this.harold = this.harold.bind(this)
-    this.handleCity = this.handleCity.bind(this)
-    this.handleSelect = this.handleSelect.bind(this)
-    this.submitForm = this.submitForm.bind(this)
-
     this.state = {
       // clock
       time: '',
       isAm: '',
       isDay: true,
 
-      // form
-      city: ''
+      // geocode & form
+      isFormOpen: false,
+      city: '',
+      isGeocoding: false,
+      lat: null,
+      lng: null
     }
+
+    this.clock = this.clock.bind(this)
+    this.harold = this.harold.bind(this)
+    this.handleCity = this.handleCity.bind(this)
+    this.handleSelect = this.handleSelect.bind(this)
+    this.submitForm = this.submitForm.bind(this)
+    this.handleChange = this.handleChange.bind(this)
+    this.setCity = this.setCity.bind(this)
   }
 
   clock() {
@@ -76,16 +83,49 @@ export default class extends Component {
     e.preventDefault()
   }
 
-  handleSelect(city) {
-    this.setState({ city })
+  handleChange(city) {
+    this.setState({
+      city,
+      lat: null,
+      lng: null
+    })
+  }
+
+  handleSelect(selected) {
+    this.setState({ isGeocoding: true, city: selected })
+
+    geocodeByAddress(selected)
+      .then(res => getLatLng(res[0]))
+      .then(({ lat, lng }) => {
+        this.setState({
+          lat, lng,
+          isGeocoding: false
+        })
+
+        this.setCity(lat, lng, selected)
+      })
+      .catch(err => {
+        this.setState({ isGeocoding: false })
+        console.log('error', error)
+      })
+  }
+
+  setCity(lat, lng, city) {
+    this.setState({ isFormOpen: false })
+
+    localStorage.setItem('city', city)
   }
 
   componentDidMount() {
     setInterval(() => this.clock(), 1000)
+
+    const cityLocal = localStorage.getItem('city')
+
+    if (!cityLocal) this.setState({ isFormOpen: true })
   }
 
   render() {
-    const { time, isAm, city } = this.state
+    const { time, isAm, city, lat, lng, isFormOpen } = this.state
 
     return (
       <div>
@@ -94,9 +134,13 @@ export default class extends Component {
         <main className={(typeof isAm == 'boolean') ? 'active' : ''}>
           <ChooseCity
             city={city}
+            handleChange={this.handleChange}
             handleCity={this.handleCity}
             handleSelect={this.handleSelect}
-            submitForm={this.submitForm} />
+            submitForm={this.submitForm}
+            lat={lat}
+            lng={lng}
+            isFormOpen={isFormOpen} />
 
           <h1 className="current-weather">🌞</h1>
           <p className="description">

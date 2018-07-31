@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete'
+import PlacesAutocomplete from 'react-places-autocomplete'
 
 class ChooseCity extends Component {
   render() {
     const { props } = this
+    const { isFormOpen } = props
 
     const renderSuggestion = ({ formattedSuggestion }) => (
       <div className="suggestion-item">
@@ -39,7 +40,7 @@ class ChooseCity extends Component {
     const shouldFetchSuggestions = ({ value }) => value.length > 2
 
     return (
-      <div className="choose-city">
+      <div className={`choose-city ${isFormOpen ? 'active' : ''}`}>
         <div className="wrap">
           <h2>Where you are you?</h2>
 
@@ -49,6 +50,7 @@ class ChooseCity extends Component {
               inputProps={inputProps}
               classNames={cssClasses}
               onSelect={props.handleSelect}
+              onChange={props.handleChange}
               onEnterKeyDown={props.handleSelect}
               onError={onError}
               shouldFetchSuggestions={shouldFetchSuggestions}
